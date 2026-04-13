@@ -1,0 +1,63 @@
+#include<iostream>
+
+using namespace std;
+
+class rules {
+	int *data;
+
+public:
+
+	rules(int value) {
+		data = new int(value);
+	}
+
+	rules(const rules& other) {
+		data = new int(*other.data);
+	}
+
+	//so & in the return value is used so that the user can use this example for chaining purposes.
+	rules& operator=(const rules& other) {
+		if (this != &other) {
+			delete data;
+			data = new int(*other.data);
+		}
+
+		return *this;
+	}
+
+	//&& -> which accepts an rvalue reference — allowing your class to steal (move) resources instead of copying
+	rules(rules&& other) noexcept {
+		data = other.data;
+		other.data = nullptr;
+	}
+
+	//noexcept is used to show that it is moving or else it will copy the data
+	//it wont throw any exception
+	rules& operator=(rules&& other) noexcept {
+		if (this != &other) {
+			delete data;
+			data = other.data;
+			other.data = nullptr;
+		}
+		return *this;
+	}
+
+	~rules() {
+		delete data;
+	}
+
+};
+
+
+int main(void) {
+
+	rules a(10);
+	rules b = a;         // Copy constructor
+	rules c(20);
+	c = a;                 // Copy assignment
+	rules d = std::move(a); // Move constructor
+	rules e(50);
+	e = std::move(b);         // Move assignment
+
+	return 0;
+}

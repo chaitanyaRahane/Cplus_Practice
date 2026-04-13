@@ -1,0 +1,18 @@
+#include<iostream>
+
+using namespace std;
+
+ constexpr int square(int x) {
+     return x * x;
+ }
+
+ int main() {
+     constexpr int a = square(5);  // ✅ Compile time (25)
+
+     cout << a << endl;
+     int n;
+     cin >> n;
+    const int b = square(n);          // if we change const to constepr it was pop an error
+
+    cout << b << endl;
+ }

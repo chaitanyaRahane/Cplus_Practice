@@ -1,0 +1,28 @@
+#include<iostream>
+#include<list>
+using namespace std;
+
+int main(void) {
+
+	//dynamic memo allocation
+	list<int> l;
+	l.push_back(0);
+	l.emplace_back(1);
+	l.push_back(2);
+
+	//delete element
+	l.erase(l.begin());
+
+	//iterators
+	for (list<int>::iterator it = l.begin(); it != l.end(); it++) {
+		cout << *it << endl;
+	}
+
+
+	/*for (auto& list : l) {
+		cout << list << endl;
+	}*/
+
+
+	return 0;
+}

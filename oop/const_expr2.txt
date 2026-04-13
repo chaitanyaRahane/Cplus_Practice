@@ -1,0 +1,7 @@
+template<typename T>
+void print(T value) {
+    if constexpr (std::is_integral_v<T>)
+        cout << "Integral\n";
+    else
+        cout << "Non integral\n";
+}

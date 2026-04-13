@@ -1,0 +1,86 @@
+#include <iostream>
+using namespace std;
+
+//CRTP Curiously Recurring Template Pattern
+template <typename Derived>
+class Equality1 {
+public:
+    bool operator==(const Derived& other) const {
+        return static_cast<const Derived*>(this)->isEqual(other); 
+        //if we remove casting the compiler does not understand that isEqual is in derived, so it will throw and error
+        //error: 'isEqual' is not a member of Equality1
+    }
+};
+
+class Person1 : public Equality1<Person1> {
+public:
+    Person1(int a) : age(a) {}
+
+    bool isEqual(const Person1& other) const {
+        return age == other.age;
+    }
+
+private:
+    int age;
+};
+
+class Equality {
+public:
+    virtual bool isEqual(const Equality& other) const = 0;
+
+    bool operator==(const Equality& other) const {
+        return isEqual(other);  // runtime dispatch
+    }
+
+    virtual ~Equality() = default;
+};
+
+class Person : public Equality {
+public:
+    Person(int a) : age(a) {}
+
+    bool isEqual(const Equality& other) const override {
+        // Downcast needed
+
+        const Person& otherPerson = static_cast<const Person&>(other);
+        return age == otherPerson.age;
+    }
+
+private:
+    int age;
+};
+
+
+class buffer {
+    string data;
+public:
+    buffer(string d) {
+        data = d;
+    }
+    string get()& {
+        cout << "called on Ivalue";
+        return data;
+    }
+    string get() &&{
+        cout << "called on Rvalue";
+        return move(data);
+    }
+};
+
+int main() {
+    Person p1(25);
+    Person p2(25);
+    Person p3(30);
+
+    cout << (p1 == p2) << endl;  // 1
+    cout << (p1 == p3) << endl;  // 0
+
+
+    buffer b(" hello");
+    cout << b.get() << endl;
+    string a = move(b).get();
+    cout << a << endl;
+
+    cout << b.get() << endl; //empty value
+
+}

@@ -1,0 +1,29 @@
+#include<iostream>
+#include <memory>
+
+using namespace std;
+
+class B;  // forward declaration
+
+class A {
+public:
+    shared_ptr<B> b;
+    ~A() { cout << "A destroyed\n"; }
+};
+
+class B {
+public:
+    weak_ptr<A> a;
+    ~B() { cout << "B destroyed\n"; }
+};
+
+int main() {
+    auto a = make_shared<A>();  // count A = 1
+    auto b = make_shared<B>();  // count B = 1
+
+    a->b = b;
+    b->a = a;
+
+    cout << a.use_count() << endl;
+    cout << b.use_count() << endl;
+}

@@ -1,0 +1,28 @@
+#include <iostream>
+using namespace std;
+
+//The benefit is not about calling from derived. 
+//The benefit is that the base class can implement reusable algorithmic structure while allowing the derived class to customize specific steps
+template<typename Derived>
+class Base {
+public:
+    void interface() {
+        // Call derived class function
+ cout << "Common logic before\n";
+        static_cast<Derived*>(this)->implementation();
+ cout << "Common logic after\n";
+    }
+};
+
+class Derived : public Base<Derived> {
+public:
+    void implementation() {
+        cout << "Derived implementation\n";
+    }
+};
+
+int main() {
+    Derived d;
+    d.interface();   // Calls Derived::implementation()
+    return 0;
+}

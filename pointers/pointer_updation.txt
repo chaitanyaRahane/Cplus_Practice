@@ -1,0 +1,19 @@
+#include <iostream>
+
+//either use & in allo(int *&) or use double pointer to update the single pointer
+
+void allo(int *ptr)
+{
+    ptr = new int(100);
+}
+int main() {
+    int x= 10;
+    int *ptr1 = &x;
+    int **ptr = &ptr1;
+    
+    allo(ptr1);
+    
+    std::cout<<*ptr1<<std::endl;
+
+    return 0;
+}

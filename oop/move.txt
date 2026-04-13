@@ -1,0 +1,18 @@
+#include <iostream>
+
+class A {
+public:
+    A() { std::cout << "Construct\n"; }
+    A(const A&) { std::cout << "Copy\n"; }
+    A(A&&) noexcept { std::cout << "Move\n"; }
+};
+
+A func() {
+    A b;
+    A a;
+    return std::move(a);
+}
+
+int main(void) {
+    A a = func();
+}

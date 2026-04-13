@@ -1,0 +1,23 @@
+#include <iostream>
+using namespace std;
+
+void process(int& x) {
+    cout << "Lvalue version\n";
+}
+
+void process(int&& x) {
+    cout << "Rvalue version\n";
+}
+
+template<typename T>
+void wrapper(T&& arg) {
+    process(std::forward<T>(arg)); 
+    //if we use move instead of forwrds we will force for Rvalue result
+}
+
+int main() {
+    int a = 10;
+
+    wrapper(a);      // lvalue
+    wrapper(20);     // rvalue
+}

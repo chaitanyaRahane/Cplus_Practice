@@ -1,0 +1,38 @@
+#include <iostream>
+using namespace std;
+
+class Base {
+public:
+    virtual Base* get() {
+        cout << "Base::get()" << endl;
+        return this;
+    }
+};
+
+class Derived : public Base {
+public:
+    int a;
+    Derived* get() override {
+        cout << "Derived::get()" << endl;
+        return this;
+    }
+    void derivedFunc() { cout << "Specific to Derived" << endl; }
+};
+
+int main() {
+    Base* b = new Derived();
+
+    Base* result = b->get();
+    result->get();
+
+
+    Derived* d = new Derived();
+    Derived* result2 = d->get();
+
+    //if we change to base as return type , we cannot use derived class member function
+  
+    result2->derivedFunc();
+
+    delete b;
+    delete d;
+}

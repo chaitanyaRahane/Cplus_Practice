@@ -1,0 +1,31 @@
+#include<iostream>
+#include<map>
+#include<thread>
+#include<string>
+
+using namespace std;
+
+void refreshForecast(map<string,int> forecastMap) {
+
+	while (true) {
+		for (auto& item : forecastMap) {
+			item.second++;
+			cout << item.first << " - " << item.second << endl;
+		}
+		this_thread::sleep_for(2000ms);
+	}
+}
+int main(void) {
+
+	map<string, int> forecastMap = {
+		{"New York",15},
+		{"Mumbai",20},
+		{"Pune",30},
+	};
+
+	thread t1(refreshForecast, forecastMap);
+
+	t1.join();
+
+	return 0;
+}

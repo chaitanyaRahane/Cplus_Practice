@@ -1,0 +1,43 @@
+#include<iostream>
+#include<vector>
+#include<unordered_map>
+#include<map>
+using namespace std;
+
+struct city {
+	string name;
+	uint64_t population;
+	double longi, lat;
+};
+int main(void) {
+	
+	//vector<city> cities;
+
+	//cities.emplace_back("pune", 1000, 1.0, 2.0);
+	//cities.emplace_back("mumbai", 2000, 3.0, 4.0);
+	//cities.emplace_back("bagalore", 3000, 5.0, 6.0);
+	//cities.emplace_back("noida", 4000, 7.0, 8.0);
+
+	////in this loop we are checking every city we have, this is not right
+	////so this way is very expensive if we have 10000s of cities
+	//for (const auto& city : cities) {
+	//	if (city.name == "pune") {
+	//		city.population;
+	//		break;
+	//	}
+	//}
+
+	//so use maps key value paring
+	map<string, city> citiesmap;
+
+	citiesmap["pune"] = city{ "pune",1000, 1.0, 2.0 };
+	citiesmap["mumbai"] = city{ "mumbai", 2000, 3.0, 4.0 };
+	citiesmap["bagalore"] = city{"bagalore" ,3000, 5.0, 6.0};
+	citiesmap["noida"] = city{"noida", 4000, 7.0, 8.0};
+	
+	//now if we want to retrive data for pune just use
+	city& pune = citiesmap["pune"];
+
+
+	return 0;
+}

@@ -1,0 +1,32 @@
+#include <mutex>
+#include<thread>
+
+class Value {
+private:
+    int m_value{};
+    mutable std::mutex m_mutex; //mutable coz we can update m_mutex in a const function too
+
+public:
+    int getValue() const {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        return m_value;
+    }
+
+    void updateValue(int value) {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        m_value = value;
+    }
+};
+int main(void) {
+    Value v;
+
+    //[&v] it is a part of lamda expression
+    //Capture only v by reference
+    std::thread t1([&v] { v.updateValue(42); });
+    std::thread t2([&v] { v.getValue(); });
+
+    t1.join();
+    t2.join();
+
+    return 0;
+}

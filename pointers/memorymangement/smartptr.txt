@@ -1,0 +1,36 @@
+#include<iostream>
+#include<memory>
+
+using namespace std;
+
+int main(void) {
+
+	//You cannot copy a only move it
+	unique_ptr<int> ptr = make_unique<int>(10);
+	
+	for (int i = 0; i < 10; i++) {
+		cout << *ptr << endl;
+	}
+
+	cout << endl;
+
+	unique_ptr<int> ptr1 = move(ptr);
+
+	for (int i = 0; i < 10; i++) {
+		cout << *ptr1 << endl;
+	}
+
+	//shared ptr
+	//Multiple shared_ptrs can point to the same object.
+	//Reference count is managed automatically.
+	//When the last shared_ptr goes out of scope, the object is deleted.
+
+	shared_ptr<int> ptesh = make_shared<int>(5);
+	shared_ptr<int> sptr = ptesh;
+
+	std::cout << "Value: " << *ptesh << ", Count: " << sptr.use_count() << std::endl;
+	return 0;
+}
+
+
+

@@ -1,0 +1,50 @@
+#include<iostream>
+#include<memory>
+#include<vector>
+
+using namespace std;
+
+//abstract base class
+class animal {
+
+public:
+	virtual void speak() const = 0; // pure virtual func
+
+    virtual ~animal() {
+        std::cout << "Animal destroyed\n";
+    }
+};
+class dog : public animal{
+public:
+    void speak() const override {
+        std::cout << "Dog barks!\n";
+    }
+
+    ~dog() {
+        std::cout << "Dog destroyed\n";
+    }
+};
+
+class Cat : public animal {
+public:
+    void speak() const override {
+        std::cout << "Cat meows!\n";
+    }
+
+    ~Cat() {
+        std::cout << "Cat destroyed\n";
+    }
+};
+int main(void) {
+
+    vector<unique_ptr<animal>> ani;
+
+    ani.push_back(make_unique<dog>());
+    ani.push_back(make_unique<Cat>());
+
+    for (const auto &var : ani) {
+        var->speak();
+    }
+
+	return 0;
+}

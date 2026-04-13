@@ -1,0 +1,31 @@
+#include<iostream>
+#include<thread>
+#include<mutex>
+using namespace std;
+
+// mutex is used in multithreaded application, using mutex two threads cannot access same code at same time.
+//it behaves like a lock, it locks one thread and after this present threads work is done it unlocks it, so that
+//other thread can use it.
+mutex mtx;
+
+void incrementCounter(string str) {
+	//lock_guard<mutex> carlock(mtx) . we can also use lock_guard,
+	// in lock guard the carlock obj unlocks the critical section at the end of the function.
+
+	unique_lock<mutex> carlock(mtx); // this is how you lock the critical section.
+	cout << str <<"is driving"<< endl;
+	this_thread::sleep_for(chrono::seconds(2)); // driving for 2 sec, so this delay
+	cout<< str <<"is done driving" << endl;
+	carlock.unlock();//unlock the critical section.
+}
+int main(void){
+
+	thread t1(incrementCounter, "hello");
+	thread t2(incrementCounter, "hello1");
+
+	//before this program ends make sure both the threads have achived there tasks
+	t1.join();
+	t2.join();
+
+	return 0;
+}

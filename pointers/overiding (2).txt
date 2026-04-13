@@ -1,0 +1,27 @@
+#include <iostream>
+using namespace std;
+
+class Animal {
+public:
+    virtual void speak() const {
+        cout << "Animal speaks\n";
+    }
+};
+
+class Dog : public Animal {
+public:
+    void speak() const override {
+        cout << "Dog barks\n";
+    }
+};
+//remove & we will get object slicing, derived part is completly gone
+void makeAnimalSpeak(const Animal& a) {
+    a.speak();
+}
+int main(void) {
+    Animal* a = new Dog();
+   
+    makeAnimalSpeak(*a);
+
+    return 0;
+}

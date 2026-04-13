@@ -1,0 +1,84 @@
+#include <iostream>
+#include <algorithm> // For std::copy
+
+struct Vector {
+    int* data;
+    int size;
+
+    // Default constructor
+    Vector() : data(nullptr), size(0) {}
+
+    // Parameterized constructor
+    Vector(int s) : size(s) {
+        data = new int[size];
+        for (int i = 0; i < size; ++i)
+            data[i] = 0;  // Initialize with zeros
+    }
+
+    // Copy constructor
+    Vector(const Vector& other) {
+        size = other.size;
+        data = new int[size];
+       // std::copy(other.data, other.data + size, data);
+
+        for (int i = 0; i < size; i++)
+            data[i] = other.data[i];
+    }
+
+    // Copy assignment operator
+    Vector& operator=(const Vector& other) {
+        if (this == &other)
+            return *this;  // Self-assignment check
+
+        delete[] data;  // Free existing resource
+
+        size = other.size;
+        data = new int[size];
+     /*   std::copy(other.data, other.data + size, data);*/
+        for (int i = 0; i < size; i++)
+            data[i] = other.data[i];
+
+        return *this;
+    }
+
+    // Destructor
+    ~Vector() {
+        delete[] data;
+    }
+
+    // Utility to print the vector
+    void print() const {
+        for (int i = 0; i < size; ++i)
+            std::cout << data[i] << ' ';
+        std::cout << '\n';
+    }
+
+    // Access operator (optional)
+    int& operator[](int index) {
+        return data[index];
+    }
+
+    const int& operator[](int index) const {
+        return data[index];
+    }
+};
+
+int main() {
+    Vector v1(5);  // Vector of size 5
+    for (int i = 0; i < 5; ++i)
+        v1[i] = i * 10;
+
+    std::cout << "Original v1: ";
+    v1.print();
+
+    Vector v2(v1); // Copy constructor
+    std::cout << "Copied v2: ";
+    v2.print();
+
+    Vector v3;
+    v3 = v1;  // Copy assignment operator
+    std::cout << "Assigned v3: ";
+    v3.print();
+
+    return 0;
+}

@@ -1,0 +1,20 @@
+#include <iostream>
+using namespace std;
+
+void change(int** pp) {
+    int y = 50;
+    *pp = &y;
+
+    //some times we can get 50 value, but most cases a dangling pointer,
+    // coz y is local var so when func end it is destroyed and its sharing the memo with p
+    //so better use int y = new int(50)
+}
+
+int main() {
+    int x = 10;
+    int* p = &x;
+
+    change(&p);
+
+    cout << *p << endl;
+}

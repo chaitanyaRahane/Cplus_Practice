@@ -1,0 +1,25 @@
+#include<iostream>
+
+using namespace std;
+
+
+class shallow {
+	int* data;
+
+public:
+	shallow(int data) {
+		this->data = new int(data);
+	}
+
+	~shallow() {
+		delete data;
+	}
+};
+int main(void) {
+	shallow s1(5);
+	shallow s2 = s1;
+
+	// at the end of the program it will throw an error, daggling pointer
+	return 0;
+}
+

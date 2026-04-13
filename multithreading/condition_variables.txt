@@ -1,0 +1,32 @@
+#include <mutex>
+#include <condition_variable>
+#include <thread>
+#include <iostream>
+
+std::mutex m;
+std::condition_variable cv;
+bool ready = false;
+int data = 0;
+//A condition_variable allows threads to sleep efficiently until a condition becomes true, instead of busy-waiting.
+void producer() {
+    {
+        std::lock_guard<std::mutex> lock(m);
+        data = 42;
+        ready = true;
+    }
+    cv.notify_one();
+}
+
+void consumer() {
+    std::unique_lock<std::mutex> lock(m);
+    cv.wait(lock, [] { return ready; });
+    std::cout << "Data = " << data << "\n";
+}
+
+int main() {
+    std::thread t1(consumer);
+    std::thread t2(producer);
+
+    t1.join();
+    t2.join();
+}

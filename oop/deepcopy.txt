@@ -1,0 +1,48 @@
+#include<iostream>
+
+using namespace std;
+
+
+class deep {
+	int* data;
+
+public:
+	deep(int data) {
+		this->data = new int(data);
+	}
+	deep(const deep &other) {
+		this->data = new int(*other.data);
+	}
+
+	deep& operator=(const deep &other) {
+		this->data = new int(*other.data);
+
+		return *this;
+	}
+
+	void display() const {
+		cout << "Value: " << *data << " at address " << data << endl;
+	}
+
+	~deep() {
+		delete data;
+	}
+};
+int main(void) {
+	deep s1(5);
+	deep s2 = s1;
+	deep s3(10);
+	s3 = s1;	
+
+	cout << "Original: ";
+	s1.display();
+
+	cout << "Copy (obj2): ";
+	s2.display();
+
+	cout << "Assigned (obj3): ";
+	s3.display();
+	
+	return 0;
+}
+

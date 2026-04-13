@@ -1,0 +1,89 @@
+#include<iostream>
+
+using namespace std;
+
+struct  vector
+{
+	int* data = nullptr;
+	int size = 0;
+
+	vector() {};
+
+	vector(int s) {
+		size = s;
+		data = new int[size] {};
+	}
+
+	//copy constructor
+	vector(const vector& other) {
+		size = other.size;
+		data = new int[size];
+		std::copy(other.data, other.data + size, data);
+	}
+
+	//move constrcutor
+	vector(vector&& other) noexcept {
+		data = other.data;
+		size = other.size;
+		other.data = nullptr;
+		other.size = 0;
+	}
+
+	//move operator (&& = rvalue reference)
+	// avoiding deep copies. good for performance
+	vector& operator= (vector&& other) noexcept {
+		if (this != &other) { // this check if same object is getting moved
+			data = other.data;
+			size = other.size;
+			other.data = nullptr;
+			other.size = 0;
+			cout << "move operator" << endl;
+		}
+		return *this; // this allows asignement chaining
+	}
+
+	int& operator[](int index) {
+		return data[index];
+	}
+
+	~vector() {
+		cout << "called" << endl;
+		delete[] data;
+	}
+};
+int main(void) {
+
+	vector v1(5);
+
+	//copy con
+	/*for (int i = 0; i < 5; i++) {
+		v1[i] = i + 1;
+	}
+
+	vector v2 = v1;
+
+	for (int i = 0; i < 5; i++) {
+		cout << v2[i] << endl;
+	}*/
+
+	//move con
+
+	for (int i = 0; i < 5; i++) {
+		v1[i] = i + 1;
+	}
+
+	vector v2 = std::move(v1);
+
+	for (int i = 0; i < 5; i++) {
+		cout << v2[i] << endl;
+	}
+
+	//move opera
+	vector v3(5);
+	v3 = std::move(v2);
+
+	for (int i = 0; i < 5; i++) {
+		cout << v3[i] << endl;
+	}
+	return 0;
+}

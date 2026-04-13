@@ -1,0 +1,8 @@
+void func(int& x) { std::cout << "lvalue\n"; }
+void func(int&& x) { std::cout << "rvalue\n"; }
+
+int main() {
+    int a = 10;
+    func(a);       // lvalue
+    func(20);      // rvalue
+}

@@ -1,0 +1,26 @@
+#include<iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+
+
+int main(void) {
+
+    int x = 5;
+auto f = [x]() mutable {
+    x++;
+    std::cout << x;
+    };
+
+std::vector<int> v{ 1, 2, 3, 4, 5, 6 };
+
+int count = std::count_if(v.begin(), v.end(),
+    [](int x) {
+        return x % 2 == 0;
+    });
+
+cout << count << endl;
+f();
+return 0;
+}

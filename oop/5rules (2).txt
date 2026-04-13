@@ -1,0 +1,76 @@
+#include<iostream>
+
+using namespace std;
+
+class deep {
+private:
+	int* data;
+
+public:
+	deep(int data) {
+		this->data = new int(data);
+	}
+
+	//copy constructor
+	deep(const deep& other) {
+		this->data = new int(*other.data);
+	}
+
+	//copy assignment operator
+	//& in return type enables chaining
+	deep& operator=(const deep& other) {
+		if (this != &other) {
+			delete data;
+			this->data = new int(*other.data);
+			
+		}
+
+		return *this;
+	}
+	//move constructor
+	//Move = steal the resource, don’t copy it
+	//&& is for rvalue reference used to move 
+	deep(deep&& other) noexcept{
+		data = other.data;
+		other.data = nullptr;
+	}
+
+	deep& operator=(deep&& other) noexcept {
+		if (this != &other) {
+			this->data = other.data;
+			this->data = nullptr;
+		}
+		return *this;
+	}
+	void display() const {
+		if (data)
+			cout << "Value: " << *data << endl;
+		else
+			cout << "Value: nullptr" << endl;
+	}
+};
+
+int main(void) {
+	cout << "---- Creating a ----" << endl;
+	deep a(10);
+
+	cout << "\n---- Copy constructing b from a ----" << endl;
+	deep b = a;
+
+	cout << "\n---- Copy assigning c from a ----" << endl;
+	deep c(0);
+	c = a;
+
+	cout << "\n---- Move constructing d from a temporary ----" << endl;
+	deep d = deep(20);
+
+	cout << "\n---- Move assigning b from temporary ----" << endl;
+	b = deep(30);
+
+	cout << "\n---- Final values ----" << endl;
+	a.display();
+	b.display();
+	c.display();
+	d.display();
+	return 0;
+}

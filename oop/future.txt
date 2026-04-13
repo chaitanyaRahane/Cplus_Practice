@@ -1,0 +1,46 @@
+#include <iostream>
+#include <functional>
+
+using namespace std;
+
+class Calculator {
+    //You don’t care what the callable is — only its signature.
+    //This is called type erasure :
+    function<void(int, int)> payFunc;
+
+public:
+    //Open / Closed Principle(SOLID)
+    //Open for extension (add new behavior(+,*,/) via lambda)
+    //Closed for modification (no need to edit Calculator class)
+                        //ALSO
+    //Strategy Pattern
+    //Instead of hardcoding behavior, you pass the algorithm
+    //each cal object get it own behavior(+,*,/) or its own strategy
+    Calculator(function<void(int, int)> f) : payFunc(f) {}
+
+    void pay(int a, int b) {
+
+        payFunc(a, b);
+    }
+};
+
+int main() {
+
+    string p1[] = { "multiply" , "add" };
+
+    //class Multiply : public Calculator {};
+   // class Add : public Calculator {};
+
+     //Behavior is composed, not inherited.
+    Calculator p([p1](int a, int b) {
+        cout << "mul " << p1[0] << " " << a * b << endl;
+        });
+
+    //Behavior is composed, not inherited.
+    Calculator padd([p1](int a, int b) {
+        cout << "add " << p1[1] << " " << a + b << endl;
+        });
+
+    p.pay(5, 5);
+    padd.pay(5, 5);
+}

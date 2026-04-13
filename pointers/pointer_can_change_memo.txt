@@ -1,0 +1,23 @@
+#include <iostream>
+//pointer address can be changed.
+int main() {
+    int x = 10;
+    int *ptr = &x;
+    
+    std::cout<<ptr<<std::endl;
+    std::cout<<&x<<std::endl;
+    std::cout<<*ptr<<std::endl;
+    
+    int y = 20;
+    ptr = &y;
+    std::cout<< " " <<std::endl;
+    
+    std::cout<<*ptr<<std::endl;
+    std::cout<<ptr<<std::endl;
+    std::cout<<&y<<std::endl;
+    std::cout<<&x<<std::endl;
+    std::cout<<y<<std::endl;
+    std::cout<<x<<std::endl;
+    
+    return 0;
+}

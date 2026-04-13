@@ -1,0 +1,20 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+
+    int x = 10;
+    int y = 20;
+
+    const int* p = &x;
+    p = &y;        // allowed
+    //*p = 30;     // NOT allowed
+
+    cout << *p << endl;
+
+    int* const p1 = &x;
+    p1 = &y;     // ❌ Error
+    *p1 = 50;    // ✅ Allowed
+
+    return 0;
+}
